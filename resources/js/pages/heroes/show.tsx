@@ -43,6 +43,7 @@ type Hero = {
 };
 export default function HeroShow({ hero }: { hero: Hero }) {
     const pending = hero.revisions.filter((r) => r.status === 'pending');
+
     return (
         <>
             <Head title={hero.name} />
