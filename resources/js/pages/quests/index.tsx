@@ -1,10 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import {
-    ArrowRight,
-    CalendarDays,
-    MapPin,
-    UsersRound,
-} from 'lucide-react';
+import { ArrowRight, CalendarDays, MapPin, UsersRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 type Quest = {
     id: number;
