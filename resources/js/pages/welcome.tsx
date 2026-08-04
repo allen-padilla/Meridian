@@ -12,6 +12,7 @@ import { dashboard, login } from '@/routes';
 export default function Welcome() {
     const { auth } = usePage().props;
     const destination = auth.user ? dashboard() : login();
+
     return (
         <>
             <Head title="Fantasy guild operations" />
