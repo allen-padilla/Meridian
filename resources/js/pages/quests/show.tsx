@@ -41,6 +41,7 @@ export default function QuestShow({ quest }: { quest: Quest }) {
     const present = quest.enlistments.filter(
         (e) => e.status === 'present',
     ).length;
+
     return (
         <>
             <Head title={quest.name} />
