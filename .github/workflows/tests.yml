@@ -32,7 +32,26 @@ jobs:
           node-version: '22'
 
       - name: Setup Application
-        run: composer setup
+        run: |
+          composer install --no-interaction --prefer-dist --optimize-autoloader
+          cp .env.example .env
+          php artisan key:generate
+          php artisan migrate --force
+          npm install
 
-      - name: Run CI Checks
-        run: composer ci:check
+      - name: Run PHP Checks
+        run: |
+          composer lint:check
+          vendor/bin/phpstan analyse --memory-limit=512M
+
+      - name: Run Frontend Checks
+        if: ${{ hashFiles('resources/js/app.tsx') != '' }}
+        run: |
+          npm run lint:check
+          npm run format:check
+          npm run types:check
+          npm run build
+
+      - name: Run Tests
+        if: ${{ hashFiles('tests/Pest.php') != '' }}
+        run: php artisan test --compact
