@@ -70,6 +70,7 @@ class DashboardTest extends TestCase
         $this->assertDatabaseCount('heroes', 100);
         $this->assertDatabaseCount('quests', 50);
         $this->assertGreaterThan(100, Enlistment::count());
+        $this->assertIsArray(Quest::where('name', 'Guild Chronicle 01')->firstOrFail()->requirements);
 
         $enlistmentCount = Enlistment::count();
 
