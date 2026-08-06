@@ -41,6 +41,18 @@ test('a quest without requirements can be opened', function () {
             ->has('quest.enlistments', 0));
 });
 
+test('a quest with double encoded requirements can be opened', function () {
+    $user = User::factory()->create();
+    $requirements = ['Bring a guild crest', 'Carry a healing draught'];
+    $quest = Quest::factory()->create(['requirements' => json_encode($requirements)]);
+
+    $this->actingAs($user)->get(route('quests.show', $quest))
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->component('quests/show')
+            ->where('quest.requirements', $requirements));
+});
+
 test('muster creates a walk-in enlistment and toggles field presence', function () {
     $user = User::factory()->create();
     $hero = Hero::factory()->create(['hero_code' => 'M-1002']);

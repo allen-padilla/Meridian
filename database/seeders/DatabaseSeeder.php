@@ -77,7 +77,9 @@ class DatabaseSeeder extends Seeder
         });
         $generatedQuests = collect(range(1, 46))->map(function (int $number) {
             $name = sprintf('Guild Chronicle %02d', $number);
-            $attributes = Quest::factory()->make()->getAttributes();
+            $generatedQuest = Quest::factory()->make();
+            $attributes = $generatedQuest->getAttributes();
+            $attributes['requirements'] = $generatedQuest->requirements;
             unset($attributes['name']);
 
             return Quest::firstOrCreate(['name' => $name], $attributes);

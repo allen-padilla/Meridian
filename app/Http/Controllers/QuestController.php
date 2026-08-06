@@ -22,7 +22,14 @@ class QuestController extends Controller
     public function show(Quest $quest): Response
     {
         $quest->load(['enlistments' => fn ($query) => $query->with('hero')->orderByDesc('mustered_at')]);
-        $quest->setAttribute('requirements', $quest->requirements ?? []);
+        $requirements = $quest->requirements;
+
+        if (is_string($requirements)) {
+            $decodedRequirements = json_decode($requirements, true);
+            $requirements = is_array($decodedRequirements) ? $decodedRequirements : [];
+        }
+
+        $quest->setAttribute('requirements', $requirements ?? []);
 
         return Inertia::render('quests/show', [
             'quest' => $quest,

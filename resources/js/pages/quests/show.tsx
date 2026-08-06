@@ -38,8 +38,12 @@ type Quest = {
     enlistments: Enlistment[];
 };
 export default function QuestShow({ quest }: { quest: Quest }) {
-    const enlistments = quest.enlistments ?? [];
-    const requirements = quest.requirements ?? [];
+    const enlistments = Array.isArray(quest.enlistments)
+        ? quest.enlistments
+        : [];
+    const requirements = Array.isArray(quest.requirements)
+        ? quest.requirements
+        : [];
     const present = enlistments.filter((e) => e.status === 'present').length;
 
     return (
