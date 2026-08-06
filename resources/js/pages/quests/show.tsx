@@ -34,13 +34,13 @@ type Quest = {
     difficulty: string;
     starts_at: string;
     party_limit: number;
-    requirements: string[];
+    requirements: string[] | null;
     enlistments: Enlistment[];
 };
 export default function QuestShow({ quest }: { quest: Quest }) {
-    const present = quest.enlistments.filter(
-        (e) => e.status === 'present',
-    ).length;
+    const enlistments = quest.enlistments ?? [];
+    const requirements = quest.requirements ?? [];
+    const present = enlistments.filter((e) => e.status === 'present').length;
 
     return (
         <>
@@ -83,7 +83,7 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                             </span>
                             <span className="flex items-center gap-2">
                                 <UsersRound className="size-4 text-[#d0aa61]" />
-                                {quest.enlistments.length}/{quest.party_limit}{' '}
+                                {enlistments.length}/{quest.party_limit}{' '}
                                 enlisted
                             </span>
                         </div>
@@ -103,7 +103,7 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                             </Badge>
                         </div>
                         <div className="divide-y">
-                            {quest.enlistments.map((e) => (
+                            {enlistments.map((e) => (
                                 <Link
                                     href={`/heroes/${e.hero.id}`}
                                     key={e.id}
@@ -193,7 +193,7 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                                 </h3>
                             </div>
                             <ul className="mt-4 space-y-3">
-                                {quest.requirements.map((req) => (
+                                {requirements.map((req) => (
                                     <li
                                         key={req}
                                         className="flex gap-3 text-sm"
@@ -202,6 +202,11 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                                         {req}
                                     </li>
                                 ))}
+                                {requirements.length === 0 && (
+                                    <li className="text-sm text-muted-foreground">
+                                        No special preparations recorded.
+                                    </li>
+                                )}
                             </ul>
                         </section>
                         <section className="meridian-panel p-5">

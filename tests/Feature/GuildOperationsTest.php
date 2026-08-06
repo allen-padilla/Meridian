@@ -29,6 +29,18 @@ test('the revisions and archive navigation destinations are distinct pages', fun
         ->assertInertia(fn ($page) => $page->component('archive/index'));
 });
 
+test('a quest without requirements can be opened', function () {
+    $user = User::factory()->create();
+    $quest = Quest::factory()->create(['requirements' => null]);
+
+    $this->actingAs($user)->get(route('quests.show', $quest))
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->component('quests/show')
+            ->where('quest.requirements', [])
+            ->has('quest.enlistments', 0));
+});
+
 test('muster creates a walk-in enlistment and toggles field presence', function () {
     $user = User::factory()->create();
     $hero = Hero::factory()->create(['hero_code' => 'M-1002']);
