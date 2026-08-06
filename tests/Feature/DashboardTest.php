@@ -70,5 +70,14 @@ class DashboardTest extends TestCase
         $this->assertDatabaseCount('heroes', 100);
         $this->assertDatabaseCount('quests', 50);
         $this->assertGreaterThan(100, Enlistment::count());
+
+        $enlistmentCount = Enlistment::count();
+
+        $this->seed(DatabaseSeeder::class);
+
+        $this->assertDatabaseCount('users', 1);
+        $this->assertDatabaseCount('heroes', 100);
+        $this->assertDatabaseCount('quests', 50);
+        $this->assertDatabaseCount('enlistments', $enlistmentCount);
     }
 }
