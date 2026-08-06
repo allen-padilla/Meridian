@@ -7,6 +7,8 @@ use App\Models\Hero;
 use App\Models\HeroRevision;
 use App\Models\Quest;
 use App\Models\User;
+use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -63,6 +65,16 @@ class DatabaseSeeder extends Seeder
             'requirements' => ['Bring a guild crest', 'Prepare two days of provisions'],
         ]));
 
+        $generatedHeroes = Hero::factory()
+            ->count(92)
+            ->sequence(fn (Sequence $sequence) => [
+                'hero_code' => sprintf('M-%04d', $sequence->index + 1000),
+            ])
+            ->create();
+        $generatedQuests = Quest::factory()->count(46)->create();
+        $allHeroes = $heroes->concat($generatedHeroes);
+        $allQuests = $quests->concat($generatedQuests);
+
         $heroes->take(5)->each(fn (Hero $hero, int $index) => Enlistment::create([
             'quest_id' => $quests[0]->id,
             'hero_id' => $hero->id,
@@ -72,5 +84,23 @@ class DatabaseSeeder extends Seeder
         $heroes->slice(2, 4)->each(fn (Hero $hero) => Enlistment::create([
             'quest_id' => $quests[1]->id, 'hero_id' => $hero->id, 'status' => 'registered',
         ]));
+
+        $allQuests->slice(2)->each(function (Quest $quest) use ($allHeroes) {
+            $partyLimit = max(3, (int) ($quest->party_limit ?? 8));
+            $partySize = random_int(3, min($partyLimit, 10));
+
+            $allHeroes->shuffle()->take($partySize)->each(function (Hero $hero) use ($quest) {
+                $completed = $quest->status === 'completed';
+
+                Enlistment::create([
+                    'quest_id' => $quest->id,
+                    'hero_id' => $hero->id,
+                    'status' => $completed ? 'departed' : 'registered',
+                    'mustered_at' => $completed
+                        ? CarbonImmutable::parse((string) $quest->starts_at)->addMinutes(random_int(0, 45))
+                        : null,
+                ]);
+            });
+        });
     }
 }

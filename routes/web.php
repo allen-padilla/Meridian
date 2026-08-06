@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuildArchiveController;
+use App\Http\Controllers\HeroAnalyticsController;
 use App\Http\Controllers\HeroController;
 use App\Http\Controllers\HeroRevisionController;
 use App\Http\Controllers\QuestController;
@@ -11,6 +12,7 @@ Route::inertia('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::get('heroes/analytics', HeroAnalyticsController::class)->name('heroes.analytics');
     Route::resource('heroes', HeroController::class)->only(['index', 'show', 'store']);
     Route::resource('quests', QuestController::class)->only(['index', 'show']);
     Route::post('quests/{quest}/muster', [QuestController::class, 'muster'])->name('quests.muster');
