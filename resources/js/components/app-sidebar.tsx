@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import {
+    ChartNoAxesCombined,
     BookOpenText,
     Compass,
     LayoutDashboard,
@@ -28,6 +29,11 @@ const mainNavItems: NavItem[] = [
 ];
 
 const recordItems: NavItem[] = [
+    {
+        title: 'Hero analytics',
+        href: '/heroes/analytics',
+        icon: ChartNoAxesCombined,
+    },
     { title: 'Hero revisions', href: '/revisions', icon: Sparkles },
     { title: 'Guild archive', href: '/archive', icon: BookOpenText },
 ];
@@ -47,16 +53,16 @@ export function AppSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
             <SidebarContent className="pt-4">
-                <NavMain items={mainNavItems} />
+                <NavMain items={mainNavItems} label="Command" />
                 <div className="mt-5">
-                    <NavMain items={recordItems} />
+                    <NavMain items={recordItems} label="Records" />
                 </div>
-                <div className="mx-3 mt-auto rounded-xl border border-[#b8924f]/25 bg-[#b8924f]/8 p-3 text-xs leading-relaxed text-sidebar-foreground/70 group-data-[collapsible=icon]:hidden">
-                    <Shield className="mb-2 size-4 text-[#c6a15b]" />
-                    <strong className="block text-sidebar-foreground">
-                        Guild ledger secure
-                    </strong>
-                    Last portal sync completed 8 minutes ago.
+                <div className="mx-3 mt-auto border-l border-sidebar-primary/45 py-1 pl-3 text-xs leading-relaxed text-sidebar-foreground/55 group-data-[collapsible=icon]:hidden">
+                    <div className="flex items-center gap-2 text-sidebar-foreground/85">
+                        <Shield className="size-3.5 text-sidebar-primary" />
+                        <strong className="font-medium">Ledger secure</strong>
+                    </div>
+                    <p className="mt-1">Portal sync completed 8 minutes ago.</p>
                 </div>
             </SidebarContent>
             <SidebarFooter>
