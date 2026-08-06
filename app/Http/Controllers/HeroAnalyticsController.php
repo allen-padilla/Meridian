@@ -44,8 +44,15 @@ class HeroAnalyticsController extends Controller
     /** @return Collection<int, array{label: string, value: int}> */
     private function distribution(string $column, ?int $limit = null): Collection
     {
+        $labelExpression = match ($column) {
+            'faction' => 'faction as label',
+            'class' => 'class as label',
+            'verification_status' => 'verification_status as label',
+            default => throw new \InvalidArgumentException("Unsupported distribution column: {$column}"),
+        };
+
         $query = Hero::query()
-            ->selectRaw("{$column} as label, count(*) as value")
+            ->selectRaw($labelExpression.', count(*) as value')
             ->whereNotNull($column)
             ->groupBy($column)
             ->orderByDesc('value');
