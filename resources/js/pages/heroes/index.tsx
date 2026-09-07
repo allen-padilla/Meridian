@@ -1,13 +1,8 @@
 import { Head, Link, router } from '@inertiajs/react';
-import {
-    CheckCircle2,
-    ChevronRight,
-    Search,
-    ShieldAlert,
-    UsersRound,
-} from 'lucide-react';
+import { ChevronRight, Search, UsersRound } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import VerificationBadge from '@/components/verification-badge';
 
 type Hero = {
     id: number;
@@ -77,12 +72,17 @@ export default function HeroesIndex({
                                         .map((n) => n[0])
                                         .join('')}
                                 </div>
-                                <div>
-                                    <div className="font-medium">
+                                <div className="min-w-0">
+                                    <div className="truncate font-medium">
                                         {hero.name}
                                     </div>
-                                    <div className="text-xs text-muted-foreground">
-                                        {hero.epithet || hero.hero_code}
+                                    <div className="truncate text-xs text-muted-foreground">
+                                        {hero.hero_code}
+                                        {hero.epithet && ` · ${hero.epithet}`}
+                                    </div>
+                                    <div className="mt-0.5 text-xs text-muted-foreground md:hidden">
+                                        Level {hero.level} {hero.class} ·{' '}
+                                        {hero.faction || 'Unaffiliated'}
                                     </div>
                                 </div>
                                 <div className="hidden md:block">
@@ -100,11 +100,9 @@ export default function HeroesIndex({
                                     {hero.faction || 'Unaffiliated'}
                                 </Badge>
                                 <div className="flex items-center gap-3">
-                                    {hero.verification_status === 'verified' ? (
-                                        <CheckCircle2 className="size-4 text-pine" />
-                                    ) : (
-                                        <ShieldAlert className="size-4 text-brass-deep" />
-                                    )}
+                                    <VerificationBadge
+                                        status={hero.verification_status}
+                                    />
                                     <ChevronRight className="size-4 text-muted-foreground" />
                                 </div>
                             </Link>

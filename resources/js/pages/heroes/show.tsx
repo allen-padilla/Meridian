@@ -11,6 +11,10 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import VerificationBadge, {
+    verificationLabel,
+} from '@/components/verification-badge';
+import { formatDate } from '@/lib/format';
 
 type Revision = {
     id: number;
@@ -57,29 +61,31 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                 </Link>
                 <div className="meridian-panel overflow-hidden">
                     <div className="bg-ink p-6 text-ink-foreground md:p-8">
-                        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-                            <div>
-                                <p className="text-[10px] tracking-[.24em] text-brass uppercase">
-                                    {hero.hero_code}
-                                </p>
-                                <h1 className="mt-2 font-display text-4xl font-semibold md:text-5xl">
-                                    {hero.name}
-                                </h1>
-                                <p className="mt-1 font-display text-xl text-ink-muted italic">
-                                    {hero.epithet}
-                                </p>
-                            </div>
-                            <div className="flex gap-2">
-                                <Badge className="bg-primary text-primary-foreground">
-                                    Level {hero.level} {hero.class}
-                                </Badge>
-                                <Badge
-                                    variant="outline"
-                                    className="border-brass/50 text-ink-muted"
-                                >
-                                    {hero.faction}
-                                </Badge>
-                            </div>
+                        <p className="text-[10px] tracking-[.24em] text-brass uppercase">
+                            {hero.hero_code}
+                        </p>
+                        <h1 className="mt-2 font-display text-4xl font-semibold md:text-5xl">
+                            {hero.name}
+                        </h1>
+                        {hero.epithet && (
+                            <p className="mt-1 font-display text-xl text-ink-muted italic">
+                                {hero.epithet}
+                            </p>
+                        )}
+                        <div className="mt-5 flex flex-wrap gap-2">
+                            <Badge className="bg-primary text-primary-foreground">
+                                Level {hero.level} {hero.class}
+                            </Badge>
+                            <Badge
+                                variant="outline"
+                                className="border-brass/50 text-ink-muted"
+                            >
+                                {hero.faction}
+                            </Badge>
+                            <VerificationBadge
+                                status={hero.verification_status}
+                                className="border-brass/50 bg-transparent text-ink-muted"
+                            />
                         </div>
                     </div>
                     <div className="grid divide-y lg:grid-cols-[1fr_1.4fr] lg:divide-x lg:divide-y-0">
@@ -90,9 +96,8 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                                     <Shield className="size-4 text-brass-deep" />
                                     <div>
                                         <p className="font-medium">
-                                            {hero.verification_status.replace(
-                                                '_',
-                                                ' ',
+                                            {verificationLabel(
+                                                hero.verification_status,
                                             )}
                                         </p>
                                         <p className="text-muted-foreground">
@@ -107,7 +112,7 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                                             {hero.ancestry}
                                         </p>
                                         <p className="text-muted-foreground">
-                                            {hero.class}, circle {hero.level}
+                                            Ancestry
                                         </p>
                                     </div>
                                 </div>
@@ -190,11 +195,15 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                                                 <Button
                                                     size="sm"
                                                     variant="outline"
+                                                    disabled
                                                 >
                                                     Accept
                                                 </Button>
                                             </div>
                                         ))}
+                                        <p className="mt-2 text-xs text-muted-foreground">
+                                            Approval isn't wired up yet.
+                                        </p>
                                     </div>
                                 ))
                             ) : (
@@ -226,13 +235,16 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                             >
                                 <p className="font-medium">{e.quest.name}</p>
                                 <p className="mt-1 text-xs text-muted-foreground">
-                                    {new Date(
-                                        e.quest.starts_at,
-                                    ).toLocaleDateString()}{' '}
-                                    · {e.quest.location}
+                                    {formatDate(e.quest.starts_at)} ·{' '}
+                                    {e.quest.location}
                                 </p>
                             </Link>
                         ))}
+                        {hero.enlistments.length === 0 && (
+                            <p className="text-sm text-muted-foreground">
+                                No quests on record.
+                            </p>
+                        )}
                     </div>
                 </section>
             </div>

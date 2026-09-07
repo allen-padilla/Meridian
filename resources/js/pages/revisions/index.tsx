@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { formatDate } from '@/lib/format';
 
 type Revision = {
     id: number;
@@ -83,9 +84,7 @@ export default function RevisionsIndex({
                                     </div>
                                     <span className="flex items-center gap-2 text-xs text-muted-foreground">
                                         <Clock3 className="size-4" />
-                                        {new Date(
-                                            revision.created_at,
-                                        ).toLocaleDateString()}
+                                        {formatDate(revision.created_at)}
                                     </span>
                                 </div>
                                 <div className="divide-y px-5">
@@ -124,7 +123,7 @@ export default function RevisionsIndex({
                                         <Link
                                             href={`/heroes/${revision.hero.id}`}
                                         >
-                                            Review record <ArrowRight />
+                                            Open record <ArrowRight />
                                         </Link>
                                     </Button>
                                 </div>
