@@ -98,12 +98,23 @@ export default function Login({ status, canResetPassword }: Props) {
                                 Sign up
                             </TextLink>
                         </div>
+
+                        <p className="rounded-lg border border-dashed border-brass-deep/40 bg-brass/10 p-3 text-center text-xs text-muted-foreground">
+                            Demo account{' '}
+                            <span className="font-mono text-foreground">
+                                guildmaster@meridian.test
+                            </span>{' '}
+                            with password{' '}
+                            <span className="font-mono text-foreground">
+                                password
+                            </span>
+                        </p>
                     </>
                 )}
             </Form>
 
             {status && (
-                <div className="mb-4 text-center text-sm font-medium text-green-600">
+                <div className="mb-4 text-center text-sm font-medium text-pine">
                     {status}
                 </div>
             )}
@@ -112,6 +123,6 @@ export default function Login({ status, canResetPassword }: Props) {
 }
 
 Login.layout = {
-    title: 'Log in to your account',
-    description: 'Enter your email and password below to log in',
+    title: 'Enter the guild',
+    description: 'Sign in with your guildkeeper account.',
 };

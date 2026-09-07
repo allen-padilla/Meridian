@@ -61,9 +61,6 @@ export default function Welcome() {
                         >
                             Open Meridian <ArrowRight className="size-4" />
                         </Link>
-                        <p className="mt-4 text-xs text-ink-foreground/45">
-                            Demo: guildmaster@meridian.test · password
-                        </p>
                     </div>
                     <div className="relative">
                         <div className="absolute -inset-16 rounded-full border border-brass/10" />
