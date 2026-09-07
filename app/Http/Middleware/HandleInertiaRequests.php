@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Enlistment;
+use App\Models\HeroRevision;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -41,6 +43,10 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'ledger' => fn () => $request->user() ? [
+                'lastMusterAt' => Enlistment::whereNotNull('mustered_at')->latest('mustered_at')->first()?->mustered_at,
+                'pendingRevisions' => HeroRevision::where('status', 'pending')->count(),
+            ] : null,
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }

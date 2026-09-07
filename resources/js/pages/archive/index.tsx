@@ -2,14 +2,11 @@ import { Head, Link } from '@inertiajs/react';
 import {
     Archive,
     ArrowRight,
-    BookOpenText,
     Compass,
-    Download,
     ScrollText,
     UsersRound,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 
 type RecordItem = {
     id: number;
@@ -103,24 +100,6 @@ export default function ArchiveIndex({
                         </div>
                     </div>
                     <aside className="space-y-5">
-                        <div className="meridian-panel p-5">
-                            <BookOpenText className="size-5 text-brass-deep" />
-                            <h2 className="mt-4 font-display text-2xl font-semibold">
-                                Ledger export
-                            </h2>
-                            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                                Prepare a portable copy of the guild's canonical
-                                records for safekeeping.
-                            </p>
-                            <Button
-                                className="mt-5 w-full"
-                                variant="outline"
-                                disabled
-                            >
-                                <Download />
-                                Export coming next
-                            </Button>
-                        </div>
                         <div className="meridian-panel p-5">
                             <Archive className="size-5 text-brass-deep" />
                             <h2 className="mt-4 font-display text-xl font-semibold">

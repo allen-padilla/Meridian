@@ -1,14 +1,15 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import {
     ArrowRight,
     CalendarDays,
-    CheckCircle2,
     Compass,
     MapPin,
     UsersRound,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import VerificationBadge from '@/components/verification-badge';
+import { formatDate, formatDayHeading, greetingFor } from '@/lib/format';
 
 type Hero = {
     id: number;
@@ -34,7 +35,7 @@ type Props = {
         pendingRevisions: number;
         activeQuests: number;
     };
-    nextQuest: Quest;
+    nextQuest: Quest | null;
     recentHeroes: Hero[];
     factions: { faction: string; total: number }[];
 };
@@ -45,6 +46,13 @@ export default function Dashboard({
     recentHeroes,
     factions,
 }: Props) {
+    const { auth } = usePage().props;
+    const firstName = auth.user.name.split(' ')[0];
+    const revisionLine =
+        metrics.pendingRevisions === 0
+            ? 'No revisions are waiting. The ledger is steady.'
+            : `${metrics.pendingRevisions} hero ${metrics.pendingRevisions === 1 ? 'revision awaits' : 'revisions await'} your judgment before the next expedition.`;
+
     return (
         <>
             <Head title="Guild overview" />
@@ -52,14 +60,13 @@ export default function Dashboard({
                 <header className="grid gap-5 border-b border-border/80 pb-7 md:grid-cols-[1fr_auto] md:items-end">
                     <div>
                         <p className="text-xs font-medium text-pine">
-                            Fourth day of Highsun
+                            {formatDayHeading(new Date())}
                         </p>
                         <h1 className="mt-2 max-w-3xl font-display text-4xl leading-[1.04] font-semibold tracking-[-0.025em] md:text-5xl">
-                            Good morning, Guild Master.
+                            {greetingFor()}, {firstName}.
                         </h1>
                         <p className="mt-2 max-w-2xl text-muted-foreground">
-                            The ledger is steady. Two hero revisions await your
-                            judgment before the next expedition.
+                            {revisionLine}
                         </p>
                     </div>
                     <Button asChild className="whitespace-nowrap">
@@ -79,9 +86,6 @@ export default function Dashboard({
                             key={label}
                             className={`relative border-border/70 p-5 ${index % 2 === 0 ? 'border-r' : ''} ${index < 2 ? 'border-b' : ''} ${index < 3 ? 'xl:border-r' : ''} xl:border-b-0`}
                         >
-                            <span className="absolute top-5 right-5 font-mono text-[10px] text-muted-foreground/60">
-                                0{index + 1}
-                            </span>
                             <p className="text-sm text-muted-foreground">
                                 {label}
                             </p>
@@ -92,55 +96,58 @@ export default function Dashboard({
                     ))}
                 </section>
                 <section className="grid gap-6 lg:grid-cols-[1.5fr_.8fr]">
-                    <div className="meridian-panel overflow-hidden bg-primary text-primary-foreground">
-                        <div className="relative min-h-72 p-6 md:p-8">
-                            <div className="absolute inset-0 [background-image:radial-gradient(circle_at_82%_8%,color-mix(in_oklab,var(--sidebar-primary)_70%,transparent)_0,transparent_34%)] opacity-25" />
-                            <Compass
-                                className="absolute right-6 bottom-5 size-36 text-primary-foreground/[0.045]"
-                                strokeWidth={1}
-                            />
-                            <div className="relative">
-                                <p className="text-xs font-medium text-primary-foreground/60">
-                                    Next expedition
-                                </p>
-                                <h2 className="mt-4 max-w-xl font-display text-3xl leading-tight font-semibold md:text-4xl">
-                                    {nextQuest.name}
-                                </h2>
-                                <p className="mt-3 max-w-lg text-sm leading-relaxed text-primary-foreground/70">
-                                    A party is assembling. Review preparations
-                                    and fill the remaining places before
-                                    departure.
-                                </p>
-                                <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm text-primary-foreground/85">
-                                    <span className="flex items-center gap-2">
-                                        <CalendarDays className="size-4 text-sidebar-primary" />
-                                        {new Date(
-                                            nextQuest.starts_at,
-                                        ).toLocaleDateString(undefined, {
-                                            month: 'long',
-                                            day: 'numeric',
-                                        })}
-                                    </span>
-                                    <span className="flex items-center gap-2">
-                                        <MapPin className="size-4 text-sidebar-primary" />
-                                        {nextQuest.location}
-                                    </span>
-                                    <span>
-                                        {nextQuest.enlistments_count} enlisted
-                                    </span>
+                    {nextQuest ? (
+                        <div className="meridian-panel overflow-hidden bg-primary text-primary-foreground">
+                            <div className="relative min-h-72 p-6 md:p-8">
+                                <div className="absolute inset-0 [background-image:radial-gradient(circle_at_82%_8%,color-mix(in_oklab,var(--sidebar-primary)_70%,transparent)_0,transparent_34%)] opacity-25" />
+                                <Compass
+                                    className="absolute right-6 bottom-5 size-36 text-primary-foreground/[0.045]"
+                                    strokeWidth={1}
+                                />
+                                <div className="relative">
+                                    <p className="text-xs font-medium text-primary-foreground/60">
+                                        Next expedition
+                                    </p>
+                                    <h2 className="mt-4 max-w-xl font-display text-3xl leading-tight font-semibold md:text-4xl">
+                                        {nextQuest.name}
+                                    </h2>
+                                    <p className="mt-3 max-w-lg text-sm leading-relaxed text-primary-foreground/70">
+                                        A party is assembling. Review
+                                        preparations and fill the remaining
+                                        places before departure.
+                                    </p>
+                                    <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm text-primary-foreground/85">
+                                        <span className="flex items-center gap-2">
+                                            <CalendarDays className="size-4 text-sidebar-primary" />
+                                            {formatDate(nextQuest.starts_at)}
+                                        </span>
+                                        <span className="flex items-center gap-2">
+                                            <MapPin className="size-4 text-sidebar-primary" />
+                                            {nextQuest.location}
+                                        </span>
+                                        <span>
+                                            {nextQuest.enlistments_count}{' '}
+                                            enlisted
+                                        </span>
+                                    </div>
+                                    <Button
+                                        asChild
+                                        variant="secondary"
+                                        className="mt-7"
+                                    >
+                                        <Link href={`/quests/${nextQuest.id}`}>
+                                            Review quest <ArrowRight />
+                                        </Link>
+                                    </Button>
                                 </div>
-                                <Button
-                                    asChild
-                                    variant="secondary"
-                                    className="mt-7"
-                                >
-                                    <Link href={`/quests/${nextQuest.id}`}>
-                                        Review quest <ArrowRight />
-                                    </Link>
-                                </Button>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="meridian-panel p-6 text-muted-foreground md:p-8">
+                            No expedition is scheduled. Post a quest to assemble
+                            the next party.
+                        </div>
+                    )}
                     <div className="meridian-panel p-6 md:p-7">
                         <div className="flex items-center justify-between">
                             <div>
@@ -210,9 +217,9 @@ export default function Dashboard({
                                 >
                                     {hero.faction}
                                 </Badge>
-                                {hero.verification_status === 'verified' && (
-                                    <CheckCircle2 className="size-4 text-pine" />
-                                )}
+                                <VerificationBadge
+                                    status={hero.verification_status}
+                                />
                             </Link>
                         ))}
                     </div>

@@ -13,6 +13,10 @@ declare module '@inertiajs/core' {
             name: string;
             auth: Auth;
             sidebarOpen: boolean;
+            ledger: {
+                lastMusterAt: string | null;
+                pendingRevisions: number;
+            } | null;
             [key: string]: unknown;
         };
     }

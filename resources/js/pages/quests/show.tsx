@@ -12,6 +12,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { formatDateTime, formatRelative } from '@/lib/format';
 type Hero = {
     id: number;
     hero_code: string;
@@ -23,7 +24,7 @@ type Hero = {
 type Enlistment = {
     id: number;
     status: string;
-    mustered_at?: string;
+    mustered_at?: string | null;
     hero: Hero;
 };
 type Quest = {
@@ -45,6 +46,11 @@ export default function QuestShow({ quest }: { quest: Quest }) {
         ? quest.requirements
         : [];
     const present = enlistments.filter((e) => e.status === 'present').length;
+    const lastMuster = enlistments
+        .map((e) => e.mustered_at)
+        .filter((value): value is string => Boolean(value))
+        .sort()
+        .at(-1);
 
     return (
         <>
@@ -71,15 +77,7 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                         <div className="mt-6 flex flex-wrap gap-5 text-sm">
                             <span className="flex items-center gap-2">
                                 <CalendarDays className="size-4 text-brass" />
-                                {new Date(quest.starts_at).toLocaleString(
-                                    undefined,
-                                    {
-                                        month: 'long',
-                                        day: 'numeric',
-                                        hour: 'numeric',
-                                        minute: '2-digit',
-                                    },
-                                )}
+                                {formatDateTime(quest.starts_at)}
                             </span>
                             <span className="flex items-center gap-2">
                                 <MapPin className="size-4 text-brass" />
@@ -134,12 +132,20 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                                             Present
                                         </span>
                                     ) : (
-                                        <Badge variant="outline">
+                                        <Badge
+                                            variant="outline"
+                                            className="capitalize"
+                                        >
                                             {e.status}
                                         </Badge>
                                     )}
                                 </Link>
                             ))}
+                            {enlistments.length === 0 && (
+                                <p className="p-5 text-sm text-muted-foreground">
+                                    No heroes have enlisted yet.
+                                </p>
+                            )}
                         </div>
                     </section>
                     <aside className="space-y-6">
@@ -217,7 +223,9 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                             <div className="flex items-center gap-2 text-sm">
                                 <Clock3 className="size-4 text-brass-deep" />
                                 <span>
-                                    Live ledger refreshes after every muster.
+                                    {lastMuster
+                                        ? `Last muster ${formatRelative(lastMuster)}.`
+                                        : 'No musters recorded yet.'}
                                 </span>
                             </div>
                         </section>

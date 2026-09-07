@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import {
     ChartNoAxesCombined,
     BookOpenText,
@@ -20,6 +20,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { formatRelative } from '@/lib/format';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -39,6 +40,9 @@ const recordItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const { ledger } = usePage().props;
+    const revisionCount = ledger?.pendingRevisions ?? 0;
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader className="border-b border-sidebar-border/70 pb-3">
@@ -60,9 +64,16 @@ export function AppSidebar() {
                 <div className="mx-3 mt-auto border-l border-sidebar-primary/45 py-1 pl-3 text-xs leading-relaxed text-sidebar-foreground/55 group-data-[collapsible=icon]:hidden">
                     <div className="flex items-center gap-2 text-sidebar-foreground/85">
                         <Shield className="size-3.5 text-sidebar-primary" />
-                        <strong className="font-medium">Ledger secure</strong>
+                        <strong className="font-medium">Ledger status</strong>
                     </div>
-                    <p className="mt-1">Portal sync completed 8 minutes ago.</p>
+                    <p className="mt-1">
+                        {ledger?.lastMusterAt
+                            ? `Last muster ${formatRelative(ledger.lastMusterAt)}.`
+                            : 'No musters recorded yet.'}{' '}
+                        {revisionCount}{' '}
+                        {revisionCount === 1 ? 'revision' : 'revisions'}{' '}
+                        awaiting review.
+                    </p>
                 </div>
             </SidebarContent>
             <SidebarFooter>
