@@ -28,7 +28,16 @@ class QuestFactory extends Factory
                 'Vault of Tides', 'The Lantern March', 'Siege of Frostmere',
                 'Echoes Beneath Alderkeep', 'The Silver Crossing',
             ]).' '.fake()->unique()->numerify('##'),
-            'summary' => fake()->sentence(12),
+            'summary' => fake()->randomElement([
+                'Escort the survey party and return with the ridge charts.',
+                'Clear the old watchtower before the winter garrison arrives.',
+                'Recover the guild seal from the flooded archive.',
+                'Map the tunnels beneath the mill and mark every collapse.',
+                'Deliver the treaty copies to the border wardens by dawn.',
+                'Hold the ferry crossing until the caravan is across.',
+                'Search the orchard ruins for the missing apprentice.',
+                'Reset the beacon lamps along the coast road.',
+            ]),
             'location' => fake()->randomElement([
                 'Astra Peaks', 'Thornmere Marsh', 'Copperwind Pass',
                 'Elderbloom', 'Blackwater Reach', 'Frostmere', 'Dawnmere',

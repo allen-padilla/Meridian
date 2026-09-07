@@ -13,6 +13,48 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
+    /**
+     * A season of expeditions beyond the four featured quests, as
+     * [name, summary, location, difficulty, days from today].
+     * Negative offsets are completed expeditions, positive ones are upcoming.
+     */
+    private const CHRONICLE = [
+        ['Siege of Frostmere', 'Break the ice-bound blockade before the river freezes solid.', 'Frostmere', 'legendary', -210],
+        ['The Glass Citadel', 'Escort the glaziers to the citadel and guard the panes on the climb.', 'Astra Peaks', 'epic', -180],
+        ['Ashes of Dawn', 'Search the burned chapel for the reliquary before looters do.', 'Dawnmere', 'standard', -160],
+        ['The Hollow Road', 'Clear the sinkholes on the trade road and mark the safe line.', 'Copperwind Pass', 'standard', -140],
+        ['Vault of Tides', 'Recover the tide ledgers from the flooded vault at low water.', 'Blackwater Reach', 'epic', -120],
+        ['The Lantern March', 'Relight the beacon lamps along the coast road in a single night.', 'Blackwater Reach', 'standard', -100],
+        ['Echoes Beneath Alderkeep', 'Map the tunnels under the keep and seal every breach you find.', 'Elderbloom', 'epic', -85],
+        ['The Silver Crossing', 'Hold the ferry crossing until the treaty caravan is across.', 'Thornmere Marsh', 'standard', -70],
+        ['Wardens of the Orchard', 'Find the missing apprentice somewhere in the orchard ruins.', 'Elderbloom', 'standard', -56],
+        ['The Copper Toll', 'Escort the toll wardens and their strongbox through the pass.', 'Copperwind Pass', 'standard', -42],
+        ['Nightfall at Highcairn', 'Stand the watch at Highcairn while the garrison changes over.', 'Frostmere', 'epic', -30],
+        ['The Drowned Bell', 'Raise the sunken chapel bell before the spring floods bury it.', 'Thornmere Marsh', 'legendary', -21],
+        ['Cinders of the Mill', 'Put out the mill fire and find what started it.', 'Dawnmere', 'standard', -14],
+        ['The Long Portage', 'Carry the survey boats over the ridge to the upper lakes.', 'Astra Peaks', 'standard', -7],
+        ['Council of Embers', 'Guard the faction council through three nights of talks.', 'Dawnmere', 'epic', -3],
+        ['The Wayfarer\'s Ledger', 'Verify every wanderer\'s standing before the spring muster.', 'Elderbloom', 'standard', 2],
+        ['Beacons of Blackwater', 'Reset the harbour beacons before the fishing fleet returns.', 'Blackwater Reach', 'standard', 5],
+        ['The Stonewright\'s Debt', 'Recover the stolen mason marks from the quarry camp.', 'Copperwind Pass', 'standard', 8],
+        ['Frost on the Alder', 'Deliver cold-weather stores to the alder camps before the freeze.', 'Frostmere', 'epic', 12],
+        ['The Quiet Ford', 'Scout the ford for the caravan and report the water level.', 'Thornmere Marsh', 'standard', 14],
+        ['Vigil of the Verdant Gate', 'Keep the gate vigil through the equinox night.', 'Elderbloom', 'legendary', 19],
+        ['Salt and Cinder', 'Escort the salt wagons past the cinder fields.', 'Dawnmere', 'standard', 23],
+        ['The Starfall Survey', 'Chart the crater field before the next storm buries it.', 'Astra Peaks', 'epic', 31],
+        ['Hearth of the Iron Covenant', 'Muster the covenant smiths for the forge reopening.', 'Copperwind Pass', 'standard', 38],
+        ['The Moth Lantern', 'Track the lantern lights seen over the marsh and name their source.', 'Thornmere Marsh', 'standard', 45],
+        ['Crown of the High Pass', 'Lead the crown procession over the pass and back.', 'Astra Peaks', 'legendary', 60],
+    ];
+
+    private const REQUIREMENTS = [
+        'Bring a guild crest',
+        'Prepare two days of provisions',
+        'Cold-weather gear required',
+        'Carry a healing draught',
+        'Report to muster thirty minutes early',
+    ];
+
     public function run(): void
     {
         User::firstOrCreate([
@@ -75,17 +117,25 @@ class DatabaseSeeder extends Seeder
 
             return Hero::firstOrCreate(['hero_code' => $heroCode], $attributes);
         });
-        $generatedQuests = collect(range(1, 46))->map(function (int $number) {
-            $name = sprintf('Guild Chronicle %02d', $number);
-            $generatedQuest = Quest::factory()->make();
-            $attributes = $generatedQuest->getAttributes();
-            $attributes['requirements'] = $generatedQuest->requirements;
-            unset($attributes['name']);
+        $chronicleQuests = collect(self::CHRONICLE)->map(function (array $data, int $index) {
+            [$name, $summary, $location, $difficulty, $offset] = $data;
+            $startsAt = CarbonImmutable::today()
+                ->addDays($offset)
+                ->setTime(8 + ($index % 6), $index % 2 === 0 ? 0 : 30);
 
-            return Quest::firstOrCreate(['name' => $name], $attributes);
+            return Quest::updateOrCreate(['name' => $name], [
+                'summary' => $summary,
+                'location' => $location,
+                'difficulty' => $difficulty,
+                'status' => $offset < 0 ? 'completed' : 'upcoming',
+                'starts_at' => $startsAt,
+                'ends_at' => $startsAt->addHours(4 + ($index % 5) * 2),
+                'party_limit' => 6 + ($index % 5) * 2,
+                'requirements' => array_slice(self::REQUIREMENTS, $index % 3, 2),
+            ]);
         });
         $allHeroes = $heroes->concat($generatedHeroes);
-        $allQuests = $quests->concat($generatedQuests);
+        $allQuests = $quests->concat($chronicleQuests);
 
         $heroes->take(5)->each(fn (Hero $hero, int $index) => Enlistment::firstOrCreate([
             'quest_id' => $quests[0]->id,

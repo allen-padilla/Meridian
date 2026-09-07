@@ -68,9 +68,9 @@ class DashboardTest extends TestCase
         $this->seed(DatabaseSeeder::class);
 
         $this->assertDatabaseCount('heroes', 100);
-        $this->assertDatabaseCount('quests', 50);
+        $this->assertDatabaseCount('quests', 30);
         $this->assertGreaterThan(100, Enlistment::count());
-        $this->assertIsArray(Quest::where('name', 'Guild Chronicle 01')->firstOrFail()->requirements);
+        $this->assertIsArray(Quest::where('name', 'Siege of Frostmere')->firstOrFail()->requirements);
 
         $enlistmentCount = Enlistment::count();
 
@@ -78,7 +78,7 @@ class DashboardTest extends TestCase
 
         $this->assertDatabaseCount('users', 1);
         $this->assertDatabaseCount('heroes', 100);
-        $this->assertDatabaseCount('quests', 50);
+        $this->assertDatabaseCount('quests', 30);
         $this->assertDatabaseCount('enlistments', $enlistmentCount);
     }
 }
