@@ -1,12 +1,5 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import {
-    ArrowRight,
-    BookOpen,
-    Compass,
-    QrCode,
-    ShieldCheck,
-    Sparkles,
-} from 'lucide-react';
+import { ArrowRight, BookOpen, Compass, QrCode, Sparkles } from 'lucide-react';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { dashboard, login } from '@/routes';
 
@@ -35,13 +28,13 @@ export default function Welcome() {
                         href={destination}
                         className="rounded-lg border border-brass/35 px-4 py-2 text-sm transition hover:bg-brass/10"
                     >
-                        Enter the guild
+                        Sign in
                     </Link>
                 </nav>
                 <section className="relative mx-auto grid min-h-[calc(100vh-96px)] max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-[1.1fr_.9fr]">
                     <div>
                         <p className="text-xs font-semibold tracking-[.3em] text-brass uppercase">
-                            A full-stack portfolio project
+                            Operations console for guildkeepers
                         </p>
                         <h1 className="mt-5 max-w-3xl font-display text-6xl leading-[.95] font-semibold sm:text-7xl lg:text-8xl">
                             Run the guild.
@@ -85,13 +78,6 @@ export default function Welcome() {
                                 title="Live muster"
                                 text="Fast rune scans toggle heroes in and out of the field."
                             />
-                            <div className="flex items-center gap-3 rounded-2xl border border-brass/20 bg-black/10 p-5 sm:col-span-2">
-                                <ShieldCheck className="size-5 text-brass" />
-                                <p className="text-sm text-ink-foreground/75">
-                                    Laravel 13 · Inertia v3 · React 19 ·
-                                    TypeScript · Pest
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </section>
