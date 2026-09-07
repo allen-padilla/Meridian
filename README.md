@@ -1,87 +1,66 @@
-# Meridian — Fantasy Guild Operations
+# Meridian
 
-Meridian is a portfolio-ready fantasy RPG operations portal for running an
-adventurers' guild. Guildkeepers maintain a trusted hero ledger, organize
-quests, enlist parties, reconcile unknown wanderers, and muster heroes on site
-with scannable guild runes.
+Meridian is an operations portal for a fictional adventurers' guild. Guild masters keep a ledger of heroes, put quests on the board, and check heroes in at the site by entering their rune code. The fantasy is only the vocabulary. The problems underneath are the ones I deal with in member and event systems at work: a directory people trust, changes that get reviewed before they land, check-in that works on a phone, and seed data that is safe to run twice.
 
-## Run locally
+![Guild overview with hero counts, the next expedition, and guild composition by faction](docs/screenshots/dashboard.png)
+
+## Run it
+
+You need PHP 8.4, Composer, and Node 22.
 
 ```bash
 composer run setup
+php artisan db:seed
 composer run dev
 ```
 
-The seeded portfolio account is `guildmaster@meridian.test` with password
-`password`. Visit the welcome screen, enter the guild, and use that account to
-open the operational console.
+Sign in at http://localhost:8000 with `guildmaster@meridian.test` and `password`. It runs on SQLite so there is nothing else to install. The seed fills the guild with 100 heroes and a season of quests and can be run again without doubling anything.
 
-The theme is fictional; the product and engineering problems are deliberately
-real. Meridian demonstrates role-based access, review-gated data changes,
-idempotent system integrations, dynamic form data, CSV reconciliation,
-timezone-safe activity tracking, and responsive operational workflows.
+## What's built
 
-## Portfolio pitch
+- **Guild overview.** Hero and quest counts, the next expedition, guild composition by faction, and the latest heroes entered.
+- **Hero ledger.** Every hero with their standing, faction, and field history. Search by name, code, or calling, and add a hero from the ledger.
+- **Hero analytics.** Total heroes, verified coverage, who has been active in the last 90 days, and quest participation.
+- **Quest board and muster.** Quests with a difficulty, party limit, requirements, and enlistments. At the site a guildkeeper enters a hero's rune code and the hero is marked present or departed. A hero who never enlisted gets a walk-in enlistment instead of an error.
+- **Hero revisions and guild archive.** Both are pages today. The review queue lists submitted changes but approval is not wired up yet. See the specs for where they are headed.
+- **Auth.** Fortify with two factor, passkeys, and email verification.
 
-> A full-stack guild operations console that turns messy hero applications and
-> quest signups into a trustworthy system of record—complete with approval
-> workflows, party management, live rune scanning, and a resilient player
-> portal API.
+## How it's built
 
-## Product vocabulary
+Laravel 13 with Inertia v3 and React 19, Tailwind 4 and shadcn/ui for the interface, Wayfinder for typed routes, and Pest for tests. SQLite in development and in the test suite. It deploys as a container behind Coolify.
 
-| Meridian concept | Familiar product pattern |
+`composer run ci:check` runs Pint, PHPStan, ESLint, Prettier, tsc, and the test suite. GitHub Actions runs the same checks on every push and pull request.
+
+## Specs
+
+I wrote the specs before the code. `docs/specs/constitution.md` has the principles every spec assumes, and each numbered folder covers one feature, with a design doc where the data model or state transitions needed one. Not everything in them is built yet. The player portal API, guild master and scout roles, revision approval, and ledger export and restore are still spec only.
+
+| Spec | Covers |
 |---|---|
-| Hero ledger | Member or character directory |
-| Hero code | Stable external identifier |
-| Guild standing | Eligibility or credential status |
-| Faction | Chapter, region, or team |
-| Quest | Event or campaign session |
+| [constitution](docs/specs/constitution.md) | Product and engineering principles |
+| [00 product vision](docs/specs/00-product-vision/spec.md) | Positioning, personas, scope, and success |
+| [01 tech foundation](docs/specs/01-tech-foundation/spec.md) | Laravel, Inertia, React, and repository conventions |
+| [02 auth and roles](docs/specs/02-auth-roles/spec.md) | Guild master and scout roles and access control |
+| [03 heroes](docs/specs/03-heroes/spec.md) | Hero ledger, verification, revisions, factions, and runes |
+| [04 quests](docs/specs/04-quests/spec.md) | Quests, enlistments, wanderers, and live muster |
+| [05 player portal api](docs/specs/05-player-portal-api/spec.md) | Idempotent player portal integration |
+| [06 dashboard](docs/specs/06-dashboard/spec.md) | Guild health, growth, and next quest overview |
+| [07 data import and export](docs/specs/07-data-import-export/spec.md) | Bulk export, restore, and reset |
+| [08 frontend ux](docs/specs/08-frontend-ux/spec.md) | The visual system and interaction conventions |
+
+## Vocabulary
+
+| Meridian | Plain version |
+|---|---|
+| Hero ledger | Member directory |
+| Hero code | Stable external id |
+| Guild standing | Eligibility status |
+| Faction | Chapter or team |
+| Quest | Event |
 | Enlistment | Registration |
-| Wanderer | Unmatched guest or provisional character |
-| Muster scan | QR attendance check-in/out |
-| Hero revision | Human-reviewed external data change |
-| Player portal | External self-service application |
+| Wanderer | Unmatched guest |
+| Muster | Check-in and check-out |
+| Hero revision | Reviewed data change |
+| Player portal | External self-service app |
 
-## Signature demo flow
-
-1. Sign in as a guild master and review the guild health dashboard.
-2. Open a pending hero revision and approve selected field changes.
-3. Create a quest and inspect its dynamic signup questions.
-4. Merge an unmatched wanderer into a known hero—or promote them as new.
-5. Switch to the mobile muster view and scan a hero's rune in and out.
-6. Show that repeated portal syncs are safe and never downgrade participation.
-
-## Reading order
-
-| # | Specification | Covers |
-|---|---|---|
-| — | [`constitution.md`](constitution.md) | Product and engineering principles |
-| 00 | [`00-product-vision`](00-product-vision/spec.md) | Positioning, personas, scope, and success |
-| 01 | [`01-tech-foundation`](01-tech-foundation/spec.md) | Laravel, Inertia, React, and repository conventions |
-| 02 | [`02-auth-roles`](02-auth-roles/spec.md) | SSO, guild-master/scout roles, and access control |
-| 03 | [`03-heroes`](03-heroes/spec.md) | Hero ledger, verification, revisions, factions, and runes |
-| 04 | [`04-quests`](04-quests/spec.md) | Quests, enlistments, wanderers, and live muster |
-| 05 | [`05-player-portal-api`](05-player-portal-api/spec.md) | Idempotent player-portal integration |
-| 06 | [`06-dashboard`](06-dashboard/spec.md) | Guild health, growth, and next-quest overview |
-| 07 | [`07-data-import-export`](07-data-import-export/spec.md) | Bulk hero-ledger export, restore, and reset |
-| 08 | [`08-frontend-ux`](08-frontend-ux/spec.md) | The visual system and interaction conventions |
-
-Each feature folder contains a `spec.md` for requirements and, where the
-technical decisions warrant it, a `design.md` for data models, algorithms,
-state transitions, and API contracts.
-
-## Visual direction
-
-The application should feel like a premium cartographer's field console, not a
-medieval novelty website: parchment neutrals, ink-dark surfaces, restrained
-brass accents, faction colors, crisp typography, and subtle map-line texture.
-Fantasy language stays in nouns and moments of delight; actions and feedback
-remain direct and accessible.
-
-## Technology
-
-Laravel 13, PHP 8.4, Inertia v3, React 19, Tailwind CSS v4, shadcn/ui,
-PostgreSQL, Passport, Socialite, Pest 4, and Wayfinder. See
-[`01-tech-foundation/spec.md`](01-tech-foundation/spec.md) for the complete
-implementation contract.
+MIT licensed.
