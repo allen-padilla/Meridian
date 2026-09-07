@@ -73,7 +73,7 @@ export default function ArchiveIndex({
                                     <div>
                                         <Link
                                             href={`/heroes/${record.hero.id}`}
-                                            className="font-medium hover:text-[#315c48]"
+                                            className="font-medium hover:text-pine"
                                         >
                                             {record.hero.name}
                                         </Link>
@@ -84,7 +84,7 @@ export default function ArchiveIndex({
                                     <div>
                                         <Link
                                             href={`/quests/${record.quest.id}`}
-                                            className="text-sm hover:text-[#315c48]"
+                                            className="text-sm hover:text-pine"
                                         >
                                             {record.quest.name}
                                         </Link>
@@ -104,7 +104,7 @@ export default function ArchiveIndex({
                     </div>
                     <aside className="space-y-5">
                         <div className="meridian-panel p-5">
-                            <BookOpenText className="size-5 text-[#98753b]" />
+                            <BookOpenText className="size-5 text-brass-deep" />
                             <h2 className="mt-4 font-display text-2xl font-semibold">
                                 Ledger export
                             </h2>
@@ -122,21 +122,21 @@ export default function ArchiveIndex({
                             </Button>
                         </div>
                         <div className="meridian-panel p-5">
-                            <Archive className="size-5 text-[#98753b]" />
+                            <Archive className="size-5 text-brass-deep" />
                             <h2 className="mt-4 font-display text-xl font-semibold">
                                 Browse live records
                             </h2>
                             <div className="mt-4 space-y-2">
                                 <Link
                                     href="/heroes"
-                                    className="flex items-center justify-between rounded-lg border p-3 text-sm hover:bg-[#f4ecda]/60"
+                                    className="flex items-center justify-between rounded-lg border p-3 text-sm hover:bg-secondary/60"
                                 >
                                     Hero ledger{' '}
                                     <ArrowRight className="size-4" />
                                 </Link>
                                 <Link
                                     href="/quests"
-                                    className="flex items-center justify-between rounded-lg border p-3 text-sm hover:bg-[#f4ecda]/60"
+                                    className="flex items-center justify-between rounded-lg border p-3 text-sm hover:bg-secondary/60"
                                 >
                                     Quest board{' '}
                                     <ArrowRight className="size-4" />
@@ -160,7 +160,7 @@ function ArchiveMetric({
 }) {
     return (
         <div className="meridian-panel flex items-center gap-4 p-5">
-            <div className="rounded-xl bg-[#315c48]/8 p-3 text-[#315c48]">
+            <div className="rounded-xl bg-pine/10 p-3 text-pine">
                 <Icon className="size-5" />
             </div>
             <div>

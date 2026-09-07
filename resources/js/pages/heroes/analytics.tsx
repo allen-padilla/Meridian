@@ -115,7 +115,7 @@ export default function HeroAnalytics({
             <div className="mx-auto w-full max-w-[1380px] space-y-6 p-4 md:p-8 lg:p-10">
                 <header className="grid gap-5 border-b border-border/80 pb-7 md:grid-cols-[1fr_auto] md:items-end">
                     <div>
-                        <p className="text-xs font-medium text-primary">
+                        <p className="text-xs font-medium text-pine">
                             Ledger intelligence
                         </p>
                         <h1 className="mt-2 font-display text-4xl leading-tight font-semibold tracking-[-0.025em] md:text-5xl">
@@ -167,7 +167,7 @@ export default function HeroAnalytics({
                                     New hero records by calendar month
                                 </p>
                             </div>
-                            <UsersRound className="size-5 text-primary" />
+                            <UsersRound className="size-5 text-pine" />
                         </div>
                         <div className="mt-8 grid h-56 grid-cols-6 items-end gap-3 border-b border-border/70 px-1">
                             {growth.map((month) => (
@@ -202,7 +202,7 @@ export default function HeroAnalytics({
                                     Quest enlistment signals
                                 </p>
                             </div>
-                            <Swords className="size-5 text-primary" />
+                            <Swords className="size-5 text-pine" />
                         </div>
                         <dl className="mt-7 space-y-5">
                             <div className="flex items-baseline justify-between gap-4 border-b border-border/65 pb-4">
@@ -239,7 +239,7 @@ export default function HeroAnalytics({
                             <h2 className="font-display text-2xl font-semibold">
                                 Faction composition
                             </h2>
-                            <Gauge className="size-5 text-primary" />
+                            <Gauge className="size-5 text-pine" />
                         </div>
                         <BarList data={factions} />
                     </div>
@@ -248,7 +248,7 @@ export default function HeroAnalytics({
                             <h2 className="font-display text-2xl font-semibold">
                                 Most common callings
                             </h2>
-                            <Swords className="size-5 text-primary" />
+                            <Swords className="size-5 text-pine" />
                         </div>
                         <BarList data={classes} />
                     </div>
@@ -257,7 +257,7 @@ export default function HeroAnalytics({
                             <h2 className="font-display text-2xl font-semibold">
                                 Level distribution
                             </h2>
-                            <UsersRound className="size-5 text-primary" />
+                            <UsersRound className="size-5 text-pine" />
                         </div>
                         <BarList data={levelBands} />
                     </div>
@@ -266,7 +266,7 @@ export default function HeroAnalytics({
                             <h2 className="font-display text-2xl font-semibold">
                                 Verification status
                             </h2>
-                            <CheckCircle2 className="size-5 text-primary" />
+                            <CheckCircle2 className="size-5 text-pine" />
                         </div>
                         <BarList data={verification} />
                     </div>

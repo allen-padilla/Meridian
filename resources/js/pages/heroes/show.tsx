@@ -56,26 +56,26 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                     Return to ledger
                 </Link>
                 <div className="meridian-panel overflow-hidden">
-                    <div className="bg-[#203c31] p-6 text-[#f7efdd] md:p-8">
+                    <div className="bg-ink p-6 text-ink-foreground md:p-8">
                         <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
                             <div>
-                                <p className="text-[10px] tracking-[.24em] text-[#d0aa61] uppercase">
+                                <p className="text-[10px] tracking-[.24em] text-brass uppercase">
                                     {hero.hero_code}
                                 </p>
                                 <h1 className="mt-2 font-display text-4xl font-semibold md:text-5xl">
                                     {hero.name}
                                 </h1>
-                                <p className="mt-1 font-display text-xl text-[#d8c9aa] italic">
+                                <p className="mt-1 font-display text-xl text-ink-muted italic">
                                     {hero.epithet}
                                 </p>
                             </div>
                             <div className="flex gap-2">
-                                <Badge className="bg-[#315c48] text-white">
+                                <Badge className="bg-primary text-primary-foreground">
                                     Level {hero.level} {hero.class}
                                 </Badge>
                                 <Badge
                                     variant="outline"
-                                    className="border-[#d0aa61]/50 text-[#ead7ad]"
+                                    className="border-brass/50 text-ink-muted"
                                 >
                                     {hero.faction}
                                 </Badge>
@@ -87,7 +87,7 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                             <p className="eyebrow">Guild record</p>
                             <div className="mt-5 space-y-5 text-sm">
                                 <div className="flex gap-3">
-                                    <Shield className="size-4 text-[#99743a]" />
+                                    <Shield className="size-4 text-brass-deep" />
                                     <div>
                                         <p className="font-medium">
                                             {hero.verification_status.replace(
@@ -101,7 +101,7 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                                     </div>
                                 </div>
                                 <div className="flex gap-3">
-                                    <BookOpen className="size-4 text-[#99743a]" />
+                                    <BookOpen className="size-4 text-brass-deep" />
                                     <div>
                                         <p className="font-medium">
                                             {hero.ancestry}
@@ -112,7 +112,7 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                                     </div>
                                 </div>
                                 <div className="flex gap-3">
-                                    <MapPin className="size-4 text-[#99743a]" />
+                                    <MapPin className="size-4 text-brass-deep" />
                                     <div>
                                         <p className="font-medium">
                                             {hero.home_realm}
@@ -123,7 +123,7 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                                     </div>
                                 </div>
                                 <div className="flex gap-3">
-                                    <Mail className="size-4 text-[#99743a]" />
+                                    <Mail className="size-4 text-brass-deep" />
                                     <div>
                                         <p className="font-medium">
                                             {hero.email}
@@ -143,13 +143,13 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                                         Hero revisions
                                     </h2>
                                 </div>
-                                <Sparkles className="size-5 text-[#98753b]" />
+                                <Sparkles className="size-5 text-brass-deep" />
                             </div>
                             {pending.length ? (
                                 pending.map((revision) => (
                                     <div
                                         key={revision.id}
-                                        className="mt-5 rounded-xl border border-amber-800/20 bg-amber-50/50 p-4"
+                                        className="mt-5 rounded-xl border border-brass-deep/25 bg-brass/10 p-4"
                                     >
                                         <div className="mb-4 flex items-center justify-between">
                                             <span className="text-sm font-medium">
@@ -161,7 +161,7 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                                             </span>
                                             <Badge
                                                 variant="outline"
-                                                className="border-amber-700/30 text-amber-800"
+                                                className="border-brass-deep/40 text-brass-deep"
                                             >
                                                 Needs judgment
                                             </Badge>
@@ -183,7 +183,7 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                                                     <p className="text-xs text-muted-foreground">
                                                         Proposed
                                                     </p>
-                                                    <p className="font-medium text-emerald-800">
+                                                    <p className="font-medium text-pine">
                                                         {change.submitted}
                                                     </p>
                                                 </div>
@@ -198,7 +198,7 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                                     </div>
                                 ))
                             ) : (
-                                <div className="mt-6 flex items-center gap-3 rounded-xl bg-emerald-900/5 p-4 text-sm text-emerald-900">
+                                <div className="mt-6 flex items-center gap-3 rounded-xl bg-pine/8 p-4 text-sm text-pine">
                                     <CheckCircle2 className="size-5" />
                                     No pending revisions. This record is in
                                     harmony.
@@ -209,7 +209,7 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                 </div>
                 <section className="meridian-panel mt-6 p-6">
                     <div className="flex items-center gap-3">
-                        <Clock3 className="size-5 text-[#98753b]" />
+                        <Clock3 className="size-5 text-brass-deep" />
                         <div>
                             <p className="eyebrow">Field history</p>
                             <h2 className="font-display text-2xl font-semibold">
@@ -222,7 +222,7 @@ export default function HeroShow({ hero }: { hero: Hero }) {
                             <Link
                                 key={e.id}
                                 href={`/quests/${e.quest.id}`}
-                                className="rounded-xl border p-4 hover:bg-[#f4ecda]/60"
+                                className="rounded-xl border p-4 hover:bg-secondary/60"
                             >
                                 <p className="font-medium">{e.quest.name}</p>
                                 <p className="mt-1 text-xs text-muted-foreground">

@@ -12,6 +12,11 @@ type Quest = {
     party_limit: number;
     enlistments_count: number;
 };
+const difficultyStripe: Record<string, string> = {
+    legendary: 'bg-crimson',
+    epic: 'bg-brass-deep',
+    standard: 'bg-primary',
+};
 export default function QuestsIndex({ quests }: { quests: Quest[] }) {
     return (
         <>
@@ -28,14 +33,14 @@ export default function QuestsIndex({ quests }: { quests: Quest[] }) {
                     </p>
                 </header>
                 <div className="mt-7 grid gap-5 md:grid-cols-2">
-                    {quests.map((quest, i) => (
+                    {quests.map((quest) => (
                         <Link
                             key={quest.id}
                             href={`/quests/${quest.id}`}
                             className="meridian-panel group overflow-hidden transition hover:-translate-y-0.5 hover:shadow-lg"
                         >
                             <div
-                                className={`h-1.5 ${i % 3 === 0 ? 'bg-[#a0493d]' : i % 3 === 1 ? 'bg-[#315c48]' : 'bg-[#8b713a]'}`}
+                                className={`h-1.5 ${difficultyStripe[quest.difficulty] ?? 'bg-primary'}`}
                             />
                             <div className="p-6">
                                 <div className="flex items-start justify-between gap-3">
@@ -46,7 +51,7 @@ export default function QuestsIndex({ quests }: { quests: Quest[] }) {
                                         >
                                             {quest.difficulty}
                                         </Badge>
-                                        <h2 className="font-display text-2xl font-semibold group-hover:text-[#315c48]">
+                                        <h2 className="font-display text-2xl font-semibold group-hover:text-pine">
                                             {quest.name}
                                         </h2>
                                     </div>
@@ -57,7 +62,7 @@ export default function QuestsIndex({ quests }: { quests: Quest[] }) {
                                 </p>
                                 <div className="mt-6 grid gap-3 border-t pt-4 text-sm sm:grid-cols-3">
                                     <span className="flex items-center gap-2">
-                                        <CalendarDays className="size-4 text-[#98753b]" />
+                                        <CalendarDays className="size-4 text-brass-deep" />
                                         {new Date(
                                             quest.starts_at,
                                         ).toLocaleDateString(undefined, {
@@ -66,11 +71,11 @@ export default function QuestsIndex({ quests }: { quests: Quest[] }) {
                                         })}
                                     </span>
                                     <span className="flex items-center gap-2">
-                                        <MapPin className="size-4 text-[#98753b]" />
+                                        <MapPin className="size-4 text-brass-deep" />
                                         {quest.location}
                                     </span>
                                     <span className="flex items-center gap-2">
-                                        <UsersRound className="size-4 text-[#98753b]" />
+                                        <UsersRound className="size-4 text-brass-deep" />
                                         {quest.enlistments_count}/
                                         {quest.party_limit}
                                     </span>

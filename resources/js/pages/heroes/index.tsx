@@ -69,9 +69,9 @@ export default function HeroesIndex({
                             <Link
                                 href={`/heroes/${hero.id}`}
                                 key={hero.id}
-                                className="grid grid-cols-[auto_1fr_auto] items-center gap-4 p-4 transition hover:bg-[#f4ecda]/60 md:grid-cols-[auto_1.2fr_1fr_1fr_auto]"
+                                className="grid grid-cols-[auto_1fr_auto] items-center gap-4 p-4 transition hover:bg-secondary/60 md:grid-cols-[auto_1.2fr_1fr_1fr_auto]"
                             >
-                                <div className="flex size-11 items-center justify-center rounded-full border border-[#b8924f]/30 bg-[#f5ecd8] font-display text-lg text-[#785b2f]">
+                                <div className="flex size-11 items-center justify-center rounded-full border border-brass/30 bg-parchment font-display text-lg text-parchment-foreground">
                                     {hero.name
                                         .split(' ')
                                         .map((n) => n[0])
@@ -101,9 +101,9 @@ export default function HeroesIndex({
                                 </Badge>
                                 <div className="flex items-center gap-3">
                                     {hero.verification_status === 'verified' ? (
-                                        <CheckCircle2 className="size-4 text-emerald-700" />
+                                        <CheckCircle2 className="size-4 text-pine" />
                                     ) : (
-                                        <ShieldAlert className="size-4 text-amber-700" />
+                                        <ShieldAlert className="size-4 text-brass-deep" />
                                     )}
                                     <ChevronRight className="size-4 text-muted-foreground" />
                                 </div>

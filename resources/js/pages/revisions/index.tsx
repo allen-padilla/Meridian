@@ -48,7 +48,7 @@ export default function RevisionsIndex({
                             before they alter the trusted ledger.
                         </p>
                     </div>
-                    <Badge className="w-fit bg-amber-900/10 text-amber-800 hover:bg-amber-900/10">
+                    <Badge className="w-fit bg-brass-deep/10 text-brass-deep hover:bg-brass-deep/10">
                         {pending.length} awaiting judgment
                     </Badge>
                 </header>
@@ -61,13 +61,13 @@ export default function RevisionsIndex({
                             >
                                 <div className="flex flex-col justify-between gap-4 border-b p-5 sm:flex-row sm:items-center">
                                     <div className="flex items-center gap-4">
-                                        <div className="rounded-xl bg-amber-900/8 p-3 text-amber-800">
+                                        <div className="rounded-xl bg-brass-deep/10 p-3 text-brass-deep">
                                             <Sparkles className="size-5" />
                                         </div>
                                         <div>
                                             <Link
                                                 href={`/heroes/${revision.hero.id}`}
-                                                className="font-display text-2xl font-semibold hover:text-[#315c48]"
+                                                className="font-display text-2xl font-semibold hover:text-pine"
                                             >
                                                 {revision.hero.name}
                                             </Link>
@@ -107,19 +107,19 @@ export default function RevisionsIndex({
                                                     {change.active}
                                                 </p>
                                             </div>
-                                            <GitCompareArrows className="hidden size-4 self-center text-[#98753b] sm:block" />
+                                            <GitCompareArrows className="hidden size-4 self-center text-brass-deep sm:block" />
                                             <div>
                                                 <p className="text-[10px] tracking-wider text-muted-foreground uppercase">
                                                     Proposed
                                                 </p>
-                                                <p className="mt-1 text-sm font-medium text-emerald-800">
+                                                <p className="mt-1 text-sm font-medium text-pine">
                                                     {change.submitted}
                                                 </p>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
-                                <div className="flex justify-end border-t bg-[#f4ecda]/35 p-4">
+                                <div className="flex justify-end border-t bg-secondary/35 p-4">
                                     <Button asChild variant="outline">
                                         <Link
                                             href={`/heroes/${revision.hero.id}`}
@@ -131,7 +131,7 @@ export default function RevisionsIndex({
                             </article>
                         ))
                     ) : (
-                        <div className="meridian-panel flex items-center gap-4 p-6 text-emerald-900">
+                        <div className="meridian-panel flex items-center gap-4 p-6 text-pine">
                             <CheckCircle2 className="size-6" />
                             <div>
                                 <p className="font-medium">
@@ -152,7 +152,7 @@ export default function RevisionsIndex({
                                 <Link
                                     href={`/heroes/${revision.hero.id}`}
                                     key={revision.id}
-                                    className="flex items-center justify-between p-4 hover:bg-[#f4ecda]/50"
+                                    className="flex items-center justify-between p-4 hover:bg-secondary/50"
                                 >
                                     <span>{revision.hero.name}</span>
                                     <Badge variant="outline">Reviewed</Badge>

@@ -1,12 +1,9 @@
-import { Hexagon } from 'lucide-react';
+import AppLogoIcon from '@/components/app-logo-icon';
 
 export default function AppLogo() {
     return (
         <>
-            <div className="relative flex size-9 items-center justify-center text-[#d0aa61]">
-                <Hexagon className="absolute size-9" strokeWidth={1.25} />
-                <span className="font-display text-lg font-semibold">M</span>
-            </div>
+            <AppLogoIcon className="text-brass" />
             <div className="ml-1 grid flex-1 text-left">
                 <span className="truncate font-display text-base font-semibold tracking-wide">
                     Meridian

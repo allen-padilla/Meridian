@@ -58,19 +58,19 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                     Return to quest board
                 </Link>
                 <header className="meridian-panel overflow-hidden">
-                    <div className="bg-[#203c31] p-6 text-[#f7efdd] md:p-8">
-                        <p className="text-[10px] tracking-[.24em] text-[#d0aa61] uppercase">
+                    <div className="bg-ink p-6 text-ink-foreground md:p-8">
+                        <p className="text-[10px] tracking-[.24em] text-brass uppercase">
                             {quest.difficulty} expedition
                         </p>
                         <h1 className="mt-2 font-display text-4xl font-semibold md:text-5xl">
                             {quest.name}
                         </h1>
-                        <p className="mt-3 max-w-3xl text-[#e2d8c3]/75">
+                        <p className="mt-3 max-w-3xl text-ink-foreground/75">
                             {quest.summary}
                         </p>
                         <div className="mt-6 flex flex-wrap gap-5 text-sm">
                             <span className="flex items-center gap-2">
-                                <CalendarDays className="size-4 text-[#d0aa61]" />
+                                <CalendarDays className="size-4 text-brass" />
                                 {new Date(quest.starts_at).toLocaleString(
                                     undefined,
                                     {
@@ -82,11 +82,11 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                                 )}
                             </span>
                             <span className="flex items-center gap-2">
-                                <MapPin className="size-4 text-[#d0aa61]" />
+                                <MapPin className="size-4 text-brass" />
                                 {quest.location}
                             </span>
                             <span className="flex items-center gap-2">
-                                <UsersRound className="size-4 text-[#d0aa61]" />
+                                <UsersRound className="size-4 text-brass" />
                                 {enlistments.length}/{quest.party_limit}{' '}
                                 enlisted
                             </span>
@@ -102,7 +102,7 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                                     Assembled heroes
                                 </h2>
                             </div>
-                            <Badge className="bg-emerald-900/10 text-emerald-800 hover:bg-emerald-900/10">
+                            <Badge className="bg-pine/10 text-pine hover:bg-pine/10">
                                 {present} in the field
                             </Badge>
                         </div>
@@ -111,9 +111,9 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                                 <Link
                                     href={`/heroes/${e.hero.id}`}
                                     key={e.id}
-                                    className="flex items-center gap-4 p-4 hover:bg-[#f4ecda]/60"
+                                    className="flex items-center gap-4 p-4 hover:bg-secondary/60"
                                 >
-                                    <div className="flex size-10 items-center justify-center rounded-full border border-[#b8924f]/30 bg-[#f5ecd8] font-display">
+                                    <div className="flex size-10 items-center justify-center rounded-full border border-brass/30 bg-parchment font-display text-parchment-foreground">
                                         {e.hero.name
                                             .split(' ')
                                             .map((n) => n[0])
@@ -129,7 +129,7 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                                         </p>
                                     </div>
                                     {e.status === 'present' ? (
-                                        <span className="flex items-center gap-2 text-xs font-medium text-emerald-800">
+                                        <span className="flex items-center gap-2 text-xs font-medium text-pine">
                                             <CheckCircle2 className="size-4" />
                                             Present
                                         </span>
@@ -145,7 +145,7 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                     <aside className="space-y-6">
                         <section className="meridian-panel p-5">
                             <div className="flex items-center gap-3">
-                                <div className="rounded-xl bg-[#315c48]/10 p-2 text-[#315c48]">
+                                <div className="rounded-xl bg-pine/10 p-2 text-pine">
                                     <QrCode className="size-5" />
                                 </div>
                                 <div>
@@ -175,7 +175,7 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                                         />
                                         <Button
                                             disabled={processing}
-                                            className="h-11 w-full bg-[#315c48] text-white hover:bg-[#274c3b]"
+                                            className="h-11 w-full"
                                         >
                                             <QrCode />
                                             Record rune
@@ -191,7 +191,7 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                         </section>
                         <section className="meridian-panel p-5">
                             <div className="flex items-center gap-2">
-                                <Shield className="size-4 text-[#98753b]" />
+                                <Shield className="size-4 text-brass-deep" />
                                 <h3 className="font-display text-xl font-semibold">
                                     Preparations
                                 </h3>
@@ -202,7 +202,7 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                                         key={req}
                                         className="flex gap-3 text-sm"
                                     >
-                                        <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-700" />
+                                        <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-pine" />
                                         {req}
                                     </li>
                                 ))}
@@ -215,7 +215,7 @@ export default function QuestShow({ quest }: { quest: Quest }) {
                         </section>
                         <section className="meridian-panel p-5">
                             <div className="flex items-center gap-2 text-sm">
-                                <Clock3 className="size-4 text-[#98753b]" />
+                                <Clock3 className="size-4 text-brass-deep" />
                                 <span>
                                     Live ledger refreshes after every muster.
                                 </span>

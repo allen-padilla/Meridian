@@ -51,7 +51,7 @@ export default function Dashboard({
             <div className="mx-auto w-full max-w-[1380px] space-y-6 p-4 md:p-8 lg:p-10">
                 <header className="grid gap-5 border-b border-border/80 pb-7 md:grid-cols-[1fr_auto] md:items-end">
                     <div>
-                        <p className="text-xs font-medium text-primary">
+                        <p className="text-xs font-medium text-pine">
                             Fourth day of Highsun
                         </p>
                         <h1 className="mt-2 max-w-3xl font-display text-4xl leading-[1.04] font-semibold tracking-[-0.025em] md:text-5xl">
@@ -151,7 +151,7 @@ export default function Dashboard({
                                     Heroes by sworn faction
                                 </p>
                             </div>
-                            <UsersRound className="size-5 text-primary" />
+                            <UsersRound className="size-5 text-pine" />
                         </div>
                         <div className="mt-7 grid gap-3">
                             {factions.map((f) => (
@@ -160,7 +160,7 @@ export default function Dashboard({
                                     className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-b border-border/65 pb-3 last:border-0 last:pb-0"
                                 >
                                     <span className="text-sm">{f.faction}</span>
-                                    <span className="font-display text-3xl leading-none font-semibold text-primary tabular-nums">
+                                    <span className="font-display text-3xl leading-none font-semibold text-pine tabular-nums">
                                         {f.total}
                                     </span>
                                 </div>
@@ -191,7 +191,7 @@ export default function Dashboard({
                                 key={hero.id}
                                 className="group flex items-center gap-4 p-4 transition-colors hover:bg-accent/55 md:px-6"
                             >
-                                <div className="flex size-10 items-center justify-center rounded-lg border border-border bg-secondary font-display text-lg text-primary">
+                                <div className="flex size-10 items-center justify-center rounded-lg border border-border bg-secondary font-display text-lg text-pine">
                                     {hero.name
                                         .split(' ')
                                         .map((n) => n[0])
@@ -211,7 +211,7 @@ export default function Dashboard({
                                     {hero.faction}
                                 </Badge>
                                 {hero.verification_status === 'verified' && (
-                                    <CheckCircle2 className="size-4 text-primary" />
+                                    <CheckCircle2 className="size-4 text-pine" />
                                 )}
                             </Link>
                         ))}
